@@ -14,7 +14,7 @@ class SingleData:
                                 2021,2024,2026,2028,2029,2033,2034,2036,\
                                 8081,2099,2114,2100,2101,2112,2097,2113,\
                                 7579,2063,2086,2080,2030,8022,8021,2092,\
-                                2087,2089,2090,7879,7911,2109,2093,8082,\
+                                2087,2089,8105,7879,7911,2109,8083,8082,\
                                 2094,7908,8056,7967]
         if bool(gradeOrder):
             with open(gradeOrder) as f:
@@ -105,7 +105,7 @@ class SingleData:
             return counting
         
 
-    def countGradeBySchoolCode(self,schoolCode):
+    def countGradeBySchoolCode(self,schoolCode,ifsum = False):
         #计数等级
         
         count_dict = {}
@@ -118,9 +118,14 @@ class SingleData:
 
         data = self.getBySchoolCode(schoolCode,True)
         for student in data:
-            dictc(student["CombinedScore"],count_dict)
+            if ifsum:
+                dictc(student["SumScore"],count_dict)
+            else:
+                dictc(student["CombinedScore"],count_dict)
 
         return count_dict
+
+    
 
     def estimate(self,schoolCode,if_index_score = True):
         #评价学校分数
@@ -128,20 +133,23 @@ class SingleData:
 
         summary = 0
         maxmium = len(self.order)
-        
+        ratio_l=[1 , 0.9 , 0.8 , 0.7 , 0.6 , 0.5 , 0.4 , 0.3]
         for student in data:
-            summary += self.order.index(student["CombinedScore"])
+            ratio = ratio_l[self.grades.index(student["SumScore"])]
+            summary += self.order.index(student["CombinedScore"])*(1-ratio/2)
         
         avg = summary/len(data)
         linear_score = round((maxmium - summary / len(data)) / maxmium,2)
-        index_score = round(0.992**avg,2)
+        #计算指数分数
+        base = 0.996
+        diff = base**maxmium  #所有等级排列个数
+        index_score = round((base**avg - diff) / (1-diff),4)
+
+        #index_score = round(0.992**avg,2)
         if if_index_score:
             return index_score
         else:
             return linear_score
-
-    def getName(self,schoolCode):
-        data = self.getBySchoolCode(schoolCode,True)
 
         
 
