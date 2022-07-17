@@ -58,9 +58,9 @@ for t in types:
     d = {}
     d["schoolCode"] = school_code
     d["type"] = t
-    d["status"] = 4
+    d["status"] = 2
 
-    url="http://www.nnzkzs.com/api/services/app/publicityDetail/GetGeneralDetail?schoolCode=%s&type=%s&status=4"%(str(school_code),t)
+    url="http://www.nnzkzs.com/api/services/app/publicityDetail/GetGeneralDetail?schoolCode=%s&type=%s&status=2"%(str(school_code),t)
     res=requests.post(url,data=d)
     datas.append(res.json())
     #print(json.loads(datas[1]["result"]))
