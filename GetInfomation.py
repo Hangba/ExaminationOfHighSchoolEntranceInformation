@@ -57,14 +57,4 @@ def getall():
 	with open(str(int(time.time())) + ".json","w",encoding = "utf8") as f:
 		f.write(str(save))
 
-print(time.time())
-end = int(input("输入结束时间戳："))
-times = 0
-while time.time()<=end:
-    times+=1
-    print("NOW LOADING NO.{}".format(times))
-    getall()
-    time.sleep(5)
-    
-
-print("Finish")
+getall()
