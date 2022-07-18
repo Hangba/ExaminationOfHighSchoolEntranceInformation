@@ -8,15 +8,12 @@ class SingleData:
 
         #初始化
         self.types = ["instruction","directional","guide"]
-        self.match = {}#code 对应 name
-        self.school_code_list=[ 2001,2002,2003,7949,2004,2005,2008,2009,\
-                                2010,2083,2013,2014,7647,2091,2019,2020,\
-                                2021,2024,2026,2028,2029,2033,2034,2036,\
-                                8081,2099,2114,2100,2101,2112,2097,2113,\
-                                7579,2063,2086,2080,2030,8022,8021,2092,\
-                                2087,2089,8105,7879,7911,2109,8083,8082,\
-                                2094,7908,8056,7967]
         self.grades = ["A+","A","B+","B","C+","C","D","E"]
+        self.match = {}#code 对应 name
+        self.school_code_list=[45010006,45010007,45010008,45010009,45010010,45010011,45010027,45010028,45010014,45010015,\
+                    45010016,45010017,45010018,45010029,45010020,45010030,45010022,45010023,45010024,45010025,45010026,45010031,45010032,\
+                    45010033,45010034,45010035,45010036,45010037]
+        
         if bool(gradeOrder):
             with open(gradeOrder) as f:
                 self.order = eval(f.read())
@@ -39,16 +36,12 @@ class SingleData:
             self.order = eval(f.read())
 
     def init_match(self):
-        for school in self.school_code_list:
-            original_data = self.data[school]
-            for t in self.types:
-                #循环入学方式
-                data = original_data[t]['result']
-                if bool(data):  #有些学校不存在三种入学方式之一，需要排除
-                    l = json.loads(data)
-                    self.match[school] = l["schoolName"]
+        self.school_name_list=['南宁市第一职业技术学校','南宁市第三职业技术学校','南宁市第四职业技术学校','南宁市第六职业技术学校','南宁市卫生学校','广西南宁技师学院','南宁市体育运动学校','南宁市特殊教育学校','南宁信息工程职业技术学校','南宁市运德汽车运输职业技术学校','南宁创艺艺术职业学校','南宁市南山艺术职业技术学校','南宁市电子工程学校','南宁市民族歌舞艺术职业技术学校','南宁市工贸职业技术学校','南宁市海纳商务职业技术学校','南宁商贸学校','南宁市赛口职业技术学校','南宁市中南理工职业技术学校','广西演艺职业学院附属中等职业学校','广西经济职业学院附属中等职业学校','南宁市城市管理职业技术学校','南宁市绿腾健康管理职业技术学校','武鸣区职业技术学校','横州职业技术学校','宾阳县职业技术学校','上林县职业技术学校','马山县民族职业技术学校']
+        for x in range(len(self.school_name_list)):
+            self.match[self.school_code_list[x]] = self.school_name_list[x]
+            
+
                     
-    
     def getBySchoolCode(self,schoolCode,IFMERGE = False):
         #根据学校代码返回报名数据,{"instruction":[{},{}],"guide":[{},{}]}
         response = {}
@@ -126,8 +119,6 @@ class SingleData:
 
         return count_dict
 
-    
-
     def estimate(self,schoolCode,if_index_score = True):
         #评价学校分数
         data = self.getBySchoolCode(schoolCode,True)
@@ -138,21 +129,24 @@ class SingleData:
         for student in data:
             ratio = ratio_l[self.grades.index(student["SumScore"])]
             summary += self.order.index(student["CombinedScore"])*(1-ratio/2)
-        
-        avg = summary/len(data)
-        linear_score = round((maxmium - summary / len(data)) / maxmium,2)
-        #计算指数分数
-        base = 0.996
-        diff = base**maxmium  #所有等级排列个数
-        index_score = round((base**avg - diff) / (1-diff),4)
 
+        if len(data) !=0:
+            avg = summary/len(data)
+            linear_score = round((maxmium - summary / len(data)) / maxmium,2)
+            #计算指数分数
+            base = 0.996
+            diff = base**maxmium  #所有等级排列个数
+            index_score = round((base**avg - diff) / (1-diff),4)
+        else:
+            index_score=0
+            linear_score=0
+            
         #index_score = round(0.992**avg,2)
         if if_index_score:
             return index_score
         else:
             return linear_score
-
-        
+      
 
 
 
@@ -203,6 +197,11 @@ class SequenceData:
             res.append(score)
         return res
             
+        
+                
+d = SingleData("F:\\编程\\中考报名\\1658144646.json","F:\\编程\\中考报名\\测试\\GradeOrder.json")
+#print(d.returnAbove(2063,"6A","F:\\编程\\中考报名\\测试\\GradeOrder.json"))
+d.init_match()
 
-
-    
+for x in d.school_code_list:
+    print(d.match[x],d.estimate(x))
