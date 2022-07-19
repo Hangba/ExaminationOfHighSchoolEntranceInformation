@@ -108,6 +108,7 @@ class SingleData:
 
     def countGradeBySchoolCode(self,schoolCode,ifsum = False):
         #计数等级
+        #ifsum True返回总分等级 False:返回各科等级
         
         count_dict = {}
         def dictc(element,dict):
