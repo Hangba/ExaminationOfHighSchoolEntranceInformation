@@ -37,17 +37,11 @@ def fill_dict(l:list):
     return d
 
 def bprint(dict):
+    # print in a more beautiful style
     s=""
-
-
     keys = list(dict.keys())
-    
-
-            
-        
     for k in keys:
         s+= k +"  :  "+ str(dict[k] ) + "\n"
-    
     return s
 
 
@@ -78,15 +72,9 @@ for data in datas:
         sumStudent += len(scores)
         numberS.append(len(scores))
         scoreDict={}
-
-        
         for score in scores:
             dictc(score["CombinedScore"],scoreDict)
-
         gradeSort.append((scoreDict))
-
-
-
         school_name = info["schoolName"]
 
 
@@ -96,9 +84,6 @@ for data in datas:
 scDict = {}
 for sc in da:
     dictc(sc["CombinedScore"],scDict)
-
-
-
 
 print(school_name+"报名信息")
 print("总报名数: "+str(sumStudent))

@@ -10,6 +10,8 @@ school_code_list=[ 2001,2002,2003,7949,2004,2005,2008,2009,\
                         2094,7908,8056,7967]
                                       
 types = ["instruction","directional","guide"]  #非定向，定向，指导
+interval = 5
+ending_time_stamp = 0
 
 def getbytype(schoolcode,t):
     d = {}
@@ -48,6 +50,7 @@ def getbyschoolcode(school_code):
     return school_data
         
 def getall():
+    #Save data in the (time stamp).json automatically.
     r_d={}
     for school_code in school_code_list:
         #print("Now: " +str(school_code))
@@ -56,14 +59,14 @@ def getall():
     save = {"time":time.time(),"data":r_d}
     with open(str(int(time.time())) + ".json","w",encoding = "utf8") as f:
         f.write(str(save))
+        
 print(time.time())
-end = int(input("输入结束时间戳："))
 times = 0
-while time.time()<=end:
+while time.time()<=ending_time_stamp:
     times+=1
-    print("NOW LOADING NO.{}".format(times))
+    print(f"NOW LOADING NO.{times}, current time stamp is {int(time.time())}")
     getall()
-    time.sleep(5)
+    time.sleep(interval)
     
 
 print("Finish")
