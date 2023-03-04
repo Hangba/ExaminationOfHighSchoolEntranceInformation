@@ -43,7 +43,7 @@ loading a sequence of data, use file name as time order.
     3. The methods in class SequenceData are (you need to put this script with all the data file):
         - getAboveBySchoolCode(self,schoolCode,grade,gradeOrder) returns a chronological list of the number of people in the data for a given school and above a given grade.
         - getScoreBySchoolCode(self,schoolCode) returns a chronological list of the estimated score for a given school code.
-- AnalysisVocationalData.py : Almost identical with AnalisisData.py.
+- AnalysisVocationalData.py : Almost identical with AnalysisData.py.
 - example.py : An example to use the functions.
 - GetInformation.py : Get information online and save as a file using time stamp as its name.
 - GetInformationLoop.py : The function is like GetInformation.py but it keeps cycling until the time stamp you set in the file.
@@ -95,7 +95,7 @@ http://www.nnzkzs.com/api/services/app/publicityDetail/GetVocationalDetail?schoo
     3. 类SequenceData的方法如下 (你需要把这个脚本和所有数据放在一起):
         - getAboveBySchoolCode(self,schoolCode,grade,gradeOrder) 返回一个按时间顺序排列的列表，包括数据中给定学校和给定等级以上的人数。
         - getScoreBySchoolCode(self,schoolCode) #返回按时间顺序排列的评估分数。
-- AnalysisVocationalData.py : 几乎与AnalisisData.py相同.
+- AnalysisVocationalData.py : 几乎与AnalysisData.py相同.
 - example.py : 一个使用函数的例子.
 - GetInformation.py : 在nnzkzs.com获取信息，并且保存到一个.json文件，用时间戳命名。
 - GetInformationLoop.py : 这个脚本类似GetInformation.py， 但是它将循环至特定的时间戳
