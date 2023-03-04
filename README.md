@@ -48,3 +48,55 @@ loading a sequence of data, use file name as time order.
 - GetInformation.py : Get information online and save as a file using time stamp as its name.
 - GetInformationLoop.py : The function is like GetInformation.py but it keeps cycling until the time stamp you set in the file.
 - GetVocationalInformation.py : Similar to GetInformation.py, but it is for vacational schools.
+
+
+<h1>南宁中考报名信息</h1>
+用nnzksz.com提供的api来记录当前中考报名信息
+
+## 限制
+1. 学校代码每年都有可能变化，你需要post下面的网址获取最新的school code
+2. 参数“status“的功能未知，但是可能影响数据的实时性。
+
+## API 列表:
+
+#### 获取职校列表:
+方法:post
+<http://www.nnzkzs.com/api/services/app/vocationalPublicity/GetPublicity>
+#### 获取普高列表:
+方法:post
+http://www.nnzkzs.com/api/services/app/generalPublicity/GetPublicity
+#### 获取普高的报名信息:
+http://www.nnzkzs.com/api/services/app/publicityDetail/GetGeneralDetail?schoolCode={1}&type={2}status={3}
+需要同时post header: 
+explain:
+1. {1}: **school code** - 可以在SchoolCode.xlsx找到，一个代码对应一个学校
+2. {2}: **enroling method** - instruction,directional,guide 指导，定向，指导
+3. {3}: **status** - 一般在报名时用2，在结束后用4.
+#### 获取职高的报名信息:
+http://www.nnzkzs.com/api/services/app/publicityDetail/GetVocationalDetail?schoolCode={1}
+{1} 与普高相同
+
+
+## 默认命名方式
+(时间戳).json
+加载一个数据系列，用文件名作时间顺序。
+
+## 文件介绍
+- GetInformationandPrint.py : 在线获取信息并且打印，在四月和五月不可用。
+- AnalisisData.py
+    1. 包括了2个类，分别用作单独的数据和数据序列。
+    2. 类SingleData的方法如下:
+        - init_gradeOrder(gradeOrder) : 初始化等级顺序。
+        - init_match() 初始化学校代码和学校名字的配对，需要自己调用。
+        - getBySchoolCode(schoolCode,IFMERGE = False) 根据学校代码返回数据。参数IFMERGE决定了是否混合同等级的学生。
+        - returnAbove(schoolCode,grade) 返回高于或等于已知等级的学生数量
+        - countGradeBySchoolCode(schoolCode,ifsum = False) 返回一个字典，键为给学校代码的学校的学生的等级，值为其数量。
+        - estimate(schoolCode,if_index_score=True) 综合评价一个学校的学生来源。
+    3. 类SequenceData的方法如下 (你需要把这个脚本和所有数据放在一起):
+        - getAboveBySchoolCode(self,schoolCode,grade,gradeOrder) 返回一个按时间顺序排列的列表，包括数据中给定学校和给定等级以上的人数。
+        - getScoreBySchoolCode(self,schoolCode) #返回按时间顺序排列的评估分数。
+- AnalysisVocationalData.py : 几乎与AnalisisData.py相同.
+- example.py : 一个使用函数的例子.
+- GetInformation.py : 在nnzkzs.com获取信息，并且保存到一个.json文件，用时间戳命名。
+- GetInformationLoop.py : 这个脚本类似GetInformation.py， 但是它将循环至特定的时间戳
+- GetVocationalInformation.py : 与GetInformation.py相似，但是它用于职高。
