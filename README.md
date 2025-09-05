@@ -1,6 +1,8 @@
 ## 写在前面
 由于nnsksz.com加入反爬系统，没有登陆cookie无法使用原来的详细报名信息api，且本人已于2024年高中毕业，故不再更新
+
 作为二三大战曾经的参与者和见证者，真心希望两所学校越来越好
+
 唯我校友 星聚南邕
 
 <h1>Examination of High School Entrance Information in Nanning</h1>
